@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>each</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p th:text="${#dates.format(current, 'yyyy-MM-dd HH:mm:ss')}"></p>
+<table border="1">  
+    <tr th:each="user,stat : ${users}"><!-- 其中user是个临时变量，像for(User u : userList)那样中的u-->  
+    	<a th:href="@{'/detail/${user.id}(orderId=user.name)}" th:text="${user.id}"></a>
+        <td th:text="${stat.count}" th:if="${stat.count % 2 == 0}"/>  
+    </tr>  
+</table>  
+</body>
+</html>

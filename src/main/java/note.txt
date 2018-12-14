@@ -1,0 +1,60 @@
+
+--1.spring boot初识
+	spring boot基于spring.4.x的javabean的配置， 在此基础上再其内部启动了自动配置，
+	从Spring3.x开始提供了Java配置方式，使用Java配置方式可以更好的理解你配置的Bean，现在我们就处于这个时代，并且Spring4.x和Spring boot都推荐使用java配置的方式。
+
+--2.spring优缺点
+	（1）构建项目快速 （2）对主流应用无配置集成（mybaits，redis等） （3）项目独立运行 jar形式
+	 (4) 提供运行时监控 （5）于云计算天然集成	
+
+--3.运行原理
+	了解springboot的运行原理， 只需要了解其自动配置的原理， 他的源码spring-boot-autoconfigure-1.5.6.RELEASE.jar, 其中最主要的注解为SpringBootApplication
+	这个注解为@EnableAutoConfiguration. @SpringBootConfiguration, @Component注解的组合。
+	spring@EnableAutoConfiguration注解会查找类路径下的META-INF下的spring.factories， 在这个文件中有springboot需要初始化并放到容器中的bean
+
+--4.springboot web
+	springboot 自动嵌入了tomcat和springmvc， 这些配置都是springboot自动配置的 在spring-boot-autoconfigure-1.5.6.RELEASE.jar包的org.springframework.boot.autoconfigure.web
+
+--5 view模板支持
+	因为jsp在web 3.1版本会出现问题， 所以springboot官方及其不推荐使用jsp作为view，内嵌的tomcat也不支持运行jsp，
+	所以springboot对jsp是默认不支持的，若要在springboot中使用jsp需要特殊的配置才行，添加jsp依赖	
+	 <dependency>
+           <groupId>org.apache.tomcat.embed</groupId>
+           <artifactId>tomcat-embed-jasper</artifactId>
+           <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+	
+	spring.view.prefix=/WEB-INF/views/
+	spring.view.suffix=.jsp
+	
+	--6. thymeleaf模板使用
+	thymeleaf是springboot官方推荐的view模板， 也是xml/xhtml/html5的模板引擎，提供了额外的模块支持springmvc，所以可以完全代替jsp
+	<!DOCTYPE HTML>
+	<html xmlns:th="http://www.thymeleaf.org">  //引用这个命名空间转化为动态视图，需要动态处理的元素要加上“th” 前缀
+	<head>
+	    <title>hello</title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+	<!--/*@thymesVar id="name" type="java.lang.String"*/-->
+	<p th:text="'Hello！, ' + ${name} + '!'" >3333</p>
+	</body>
+	</html>
+	
+	--7 springboot打包成war
+	springboot打包成war包需要将spring-boot-starter-web中默认tomcat的依赖去除，然后打包方式为war， 还要在启动类加上
+	  @Override
+	    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	        return application.sources(DemoApplication.class);
+	    }
+	  相当于web.xml启动
+	  需要注意的是：tomcat版本需是7.0.42版本以上  
+	    
+	
+	

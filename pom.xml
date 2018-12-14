@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>bootdemo</groupId>
+  <artifactId>bootdemo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>bootdemo Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <!-- 公共资源 -->
+   <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.6.RELEASE</version>
+    </parent>
+  
+  <dependencies>
+  		<!-- springboot使用jsp作为view模板， springboot官方强烈不推荐 -->
+  	  <dependency>
+           <groupId>org.apache.tomcat.embed</groupId>
+           <artifactId>tomcat-embed-jasper</artifactId>
+           <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+  		
+  		<!-- 整合thymeleaf魔板引擎 springboot官方推荐 -->
+	   <dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+	      <exclusions>
+      		 <!-- 排除默认日志包及其依赖-->
+			  <exclusion>
+	         <groupId>org.springframework.boot</groupId>
+	         <artifactId>spring-boot-starter-logging</artifactId>
+     	 </exclusion>
+        </exclusions>
+	    </dependency>
+	 
+  
+	 <!-- （打包成外部war时使用）添加Servlet-api  scope为provides 编译和测试环境
+	 <dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>3.1.0</version>
+	    <scope>provided</scope>
+	</dependency>
+  	-->
+    <!-- 上边引入 parent，因此 下边无需指定版本 -->
+    <!-- 包含 mvc,aop 等jar资源 -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+      	 <!-- 排除默认日志包及其依赖-->
+		  <exclusion>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-logging</artifactId>
+     	 </exclusion>
+     	  <!-- （打包成外部war包时使用）移除嵌入式tomcat插件
+        <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+         -->
+      </exclusions>
+    </dependency>
+    
+    <!-- Apache logging  之所以要加这个包是因为springboot内部使用到这个日志包 -->
+	<dependency>
+	    <groupId>commons-logging</groupId>
+	    <artifactId>commons-logging</artifactId>
+	    <version>1.1.1</version>
+	</dependency>
+
+		<!-- log4j日志 -->
+	<dependency>
+	   <groupId>org.slf4j</groupId>
+	   <artifactId>slf4j-api</artifactId>
+	   <version>1.7.21</version><!--$NO-MVN-MAN-VER$-->
+	</dependency>
+	<dependency>
+	   <groupId>org.slf4j</groupId>
+	   <artifactId>slf4j-log4j12</artifactId>
+	   <version>1.7.21</version><!--$NO-MVN-MAN-VER$-->
+    </dependency>
+    
+    <!-- 整合fastjson 作为json的输出 -->
+  	<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.35</version>
+
+</dependency>
+  </dependencies>
+  <build>
+    <finalName>bootdemo</finalName>
+    <!-- spring boot提供打包 -->
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+  </build>
+</project>
